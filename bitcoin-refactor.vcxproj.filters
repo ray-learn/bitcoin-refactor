@@ -24,6 +24,9 @@
     <ClCompile Include="net.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="uibase.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bignum.h">
@@ -39,6 +42,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="uibase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -79,14 +79,14 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>D:\C++\boost_1_68_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\wxWidgets-3.1.1\lib\vc_lib\mswud;D:\wxWidgets-3.1.1\include;D:\C++\boost_1_68_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\C++\boost_1_68_0\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ws2_32.lib;wxmsw31ud_adv.lib;wxmsw31ud_core.lib;wxbase31ud.lib;wxbase31ud_net.lib;wxmsw31ud_html.lib;wxbase31ud_xml.lib;wxmsw31ud_aui.lib;wxmsw31ud_gl.lib;wxmsw31ud_media.lib;wxmsw31ud_propgrid.lib;wxmsw31ud_qa.lib;wxmsw31ud_ribbon.lib;wxmsw31ud_richtext.lib;wxmsw31ud_stc.lib;wxmsw31ud_xrc.lib;wxscintillad.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;wxexpatd.lib;winmm.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;odbc32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\wxWidgets-3.1.1\lib\vc_lib\mswud;D:\wxWidgets-3.1.1\lib\vc_lib;D:\C++\boost_1_68_0\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -107,6 +107,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="net.cpp" />
+    <ClCompile Include="uibase.cpp" />
     <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -114,6 +115,7 @@
     <ClInclude Include="headers.h" />
     <ClInclude Include="net.h" />
     <ClInclude Include="serialize.h" />
+    <ClInclude Include="uibase.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
