@@ -1,5 +1,5 @@
 #include <iostream>
-#include "winsock2.h"
+
 #include "headers.h"
 
 
@@ -25,6 +25,7 @@ void main(int argc, char * argv)
 	uint160 test_uint160;
 	uint256 test_uint256;
 	vector<string> test_vstr{ "abc" };
-	Testuint256AdHoc(test_vstr);
+	CCriticalSection test_cs;
+	/*Testuint256AdHoc(test_vstr);*/
 	/*cout << "\n the operator !() result is " << test_uint160 << endl; */
 }

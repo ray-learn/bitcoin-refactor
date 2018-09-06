@@ -23,3 +23,19 @@ inline T& REF(const T& val)
 }
 
 string strprintf(const char* format, ...);
+
+class CCriticalSection
+{
+protected:
+	CRITICAL_SECTION cs;
+public:
+	char* pszFile;
+	int nLine;
+	explicit CCriticalSection() { InitializeCriticalSection(&cs); }
+	~CCriticalSection() { DeleteCriticalSection(&cs); }
+	void Enter() { EnterCriticalSection(&cs); }
+	void Leave() { LeaveCriticalSection(&cs); }
+	bool TryEnter() { return TryEnterCriticalSection(&cs); }
+	CRITICAL_SECTION* operator&() { return &cs; }
+};
+
