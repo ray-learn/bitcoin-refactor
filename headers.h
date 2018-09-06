@@ -10,6 +10,7 @@
 using namespace std;
 
 #include "serialize.h"
+#include "uint256.h"
 #include "util.h"
 #include "net.h"
 

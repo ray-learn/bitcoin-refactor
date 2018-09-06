@@ -116,6 +116,7 @@
     <ClInclude Include="net.h" />
     <ClInclude Include="serialize.h" />
     <ClInclude Include="uibase.h" />
+    <ClInclude Include="uint256.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -21,4 +21,10 @@ void main(int argc, char * argv)
 	cout << "\nthe serialize size value is " << (char)caddress_test.GetSerializeSize();
 	cout << "\nthe GetKey method result is " << caddress_test.GetKey()[0] <<endl;
 	cout << "\nthe GetByte method result is " << caddress_test.GetByte(3) << endl;
+
+	uint160 test_uint160;
+	uint256 test_uint256;
+	vector<string> test_vstr{ "abc" };
+	Testuint256AdHoc(test_vstr);
+	/*cout << "\n the operator !() result is " << test_uint160 << endl; */
 }

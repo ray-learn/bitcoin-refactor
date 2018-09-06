@@ -1,1 +1,9 @@
-﻿  bitcoin-refactor.vcxproj -> D:\Ray\BlockChain\Bitcoin\bitcoin-refactor\Debug\bitcoin-refactor.exe
+﻿  net.cpp
+d:\ray\blockchain\bitcoin\bitcoin-refactor\serialize.h(606): warning C4002: too many arguments for function-like macro invocation '__deallocate'
+d:\ray\blockchain\bitcoin\bitcoin-refactor\serialize.h(708): warning C4018: '<=': signed/unsigned mismatch
+d:\ray\blockchain\bitcoin\bitcoin-refactor\net.h(19): warning C4309: 'initializing': truncation of constant value
+d:\ray\blockchain\bitcoin\bitcoin-refactor\net.h(96): warning C4244: '=': conversion from 'int64' to 'unsigned int', possible loss of data
+d:\ray\blockchain\bitcoin\bitcoin-refactor\net.h(106): warning C4244: '=': conversion from 'int64' to 'unsigned int', possible loss of data
+d:\ray\blockchain\bitcoin\bitcoin-refactor\net.h(116): warning C4244: '=': conversion from 'int64' to 'unsigned int', possible loss of data
+d:\ray\blockchain\bitcoin\bitcoin-refactor\net.h(126): warning C4244: '=': conversion from 'int64' to 'unsigned int', possible loss of data
+  bitcoin-refactor.vcxproj -> D:\Ray\BlockChain\Bitcoin\bitcoin-refactor\Debug\bitcoin-refactor.exe

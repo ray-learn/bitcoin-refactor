@@ -47,5 +47,8 @@
     <ClInclude Include="uibase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="uint256.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
