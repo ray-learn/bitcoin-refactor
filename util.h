@@ -39,3 +39,17 @@ public:
 	CRITICAL_SECTION* operator&() { return &cs; }
 };
 
+// Automatically leave critical section when leaving block, needed for exception safety
+class CCriticalBlock
+{
+protected:
+	CRITICAL_SECTION* pcs;
+public:
+	CCriticalBlock(CRITICAL_SECTION& csIn) { pcs = &csIn; EnterCriticalSection(pcs); }
+	CCriticalBlock(CCriticalSection& csIn) { pcs = &csIn; EnterCriticalSection(pcs); }
+	~CCriticalBlock() { LeaveCriticalSection(pcs); }
+};
+
+#define CRITICAL_BLOCK(cs)	\
+	for (bool fcriticalblockonce=true;fcriticalblockonce;assert(("break caught by CRITICAL_BLOCK!",!fcriticalblockonce)), fcriticalblockonce=false)	\
+	for (CCriticalBlock criticalblock(cs);fcriticalblockonce && (cs.pszFile=__FILE__,cs.nLine=__LINE__,true);fcriticalblockonce=false,cs.pszFile=NULL,cs.nLine=0)

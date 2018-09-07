@@ -6,6 +6,7 @@
 bool fClient = false;
 uint64 nLocalServices = (fClient ? 0 : NODE_NETWORK);
 CAddress addrLocalHost(0, DEFAULT_PORT, nLocalServices);
+map<CInv, int64> mapAlreadyAskedFor;
 
 void main(int argc, char * argv)
 {
@@ -28,7 +29,11 @@ void main(int argc, char * argv)
 	vector<string> test_vstr{ "abc" };
 	CCriticalSection test_cs;
 	CNode cn(test_socket, caddress_test);
-	cn.BeginMessage("a");
+	cn.BeginMessage("abc");
 	/*Testuint256AdHoc(test_vstr);*/
 	/*cout << "\n the operator !() result is " << test_uint160 << endl; */
+
+	CInv test_cinv;
+	cn.AddInventoryKnown(test_cinv);
+	cn.AskFor(test_cinv);
 }

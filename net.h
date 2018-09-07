@@ -1,4 +1,4 @@
-#include "winsock2.h"
+
 
 class CMessageHeader;
 class CAddress;
@@ -466,6 +466,31 @@ public:
 		nRefCount--;
 	}
 
+	void AddInventoryKnown(const CInv& inv)
+	{
+		CRITICAL_BLOCK(cs_inventory)
+			setInventoryKnown.insert(inv);
+	}
+
+	void PushInventory(const CInv& inv)
+	{
+		CRITICAL_BLOCK(cs_inventory)
+			if (!setInventoryKnown.count(inv))
+				vInventoryToSend.push_back(inv);
+	}
+
+	void AskFor(const CInv& inv)
+	{
+		int64& nRequestTime = mapAlreadyAskedFor[inv];
+		printf("askfor %s %I64d\n", inv.ToString().c_str(), nRequestTime);
+
+		int64 nNow = (GetTime() - 1) * 1000000;
+		static int64 nLastTime;
+		nLastTime = nNow = max(nNow, ++nLastTime);
+
+		nRequestTime = max(nRequestTime + 2 * 60 * 1000000, nNow);
+		mapAskFor.insert(make_pair(nRequestTime, inv));
+	}
 
 
 
