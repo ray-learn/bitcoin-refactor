@@ -437,47 +437,47 @@ public:
 		if (hSocket != INVALID_SOCKET)
 			closesocket(hSocket);
 	}
-//
-//private:
-//	CNode(const CNode&);
-//	void operator=(const CNode&);
-//public:
-//
-//	bool ReadyToDisconnect()
-//	{
-//		return fDisconnect || GetRefCount() <= 0;
-//	}
-//
-//	int GetRefCount()
-//	{
-//		return max(nRefCount, 0) + (GetTime() < nReleaseTime ? 1 : 0);
-//	}
-//
-//	void AddRef(int64 nTimeout = 0)
-//	{
-//		if (nTimeout != 0)
-//			nReleaseTime = max(nReleaseTime, GetTime() + nTimeout);
-//		else
-//			nRefCount++;
-//	}
-//
-//	void Release()
-//	{
-//		nRefCount--;
-//	}
-//
-//
-//
-//
-//	void BeginMessage(const char* pszCommand)
-//	{
-//		EnterCriticalSection(&cs_vSend);
-//		if (nPushPos != -1)
-//			AbortMessage();
-//		nPushPos = vSend.size();
-//		vSend << CMessageHeader(pszCommand, 0);
-//		printf("sending: %-12s ", pszCommand);
-//	}
+
+private:
+	CNode(const CNode&);
+	void operator=(const CNode&);
+public:
+
+	bool ReadyToDisconnect()
+	{
+		return fDisconnect || GetRefCount() <= 0;
+	}
+
+	int GetRefCount()
+	{
+		return max(nRefCount, 0) + (GetTime() < nReleaseTime ? 1 : 0);
+	}
+
+	void AddRef(int64 nTimeout = 0)
+	{
+		if (nTimeout != 0)
+			nReleaseTime = max(nReleaseTime, GetTime() + nTimeout);
+		else
+			nRefCount++;
+	}
+
+	void Release()
+	{
+		nRefCount--;
+	}
+
+
+
+
+	void BeginMessage(const char* pszCommand)
+	{
+		EnterCriticalSection(&cs_vSend);
+		if (nPushPos != -1)
+			return;
+		nPushPos = vSend.size();
+		vSend << CMessageHeader(pszCommand, 0);
+		printf("sending: %-12s ", pszCommand);
+	}
 //
 //	void AbortMessage()
 //	{
