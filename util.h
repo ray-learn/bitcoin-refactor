@@ -9,6 +9,7 @@ typedef unsigned long long  uint64;
 #define loop for (;;)
 #define ARRAYLEN(array) (sizeof(array)/sizeof((array)[0]))
 
+uint64 GetRand(uint64 nMax);
 int64 GetTime();
 int64 GetAdjustedTime();
 

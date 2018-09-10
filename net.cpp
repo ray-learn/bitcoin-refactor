@@ -29,11 +29,16 @@ void main(int argc, char * argv)
 	vector<string> test_vstr{ "abc" };
 	CCriticalSection test_cs;
 	CNode cn(test_socket, caddress_test);
-	cn.BeginMessage("abc");
+
 	/*Testuint256AdHoc(test_vstr);*/
 	/*cout << "\n the operator !() result is " << test_uint160 << endl; */
 
 	CInv test_cinv;
 	cn.AddInventoryKnown(test_cinv);
 	cn.AskFor(test_cinv);
+
+	cn.BeginMessage("abc");
+	cn.AbortMessage();
+
+	cout << "\n GetRand " << GetRand(0);
 }

@@ -2,6 +2,8 @@
  * First include the standard library and set the using declaration
  **/
 
+#define WIN32_LEAN_AND_MEAN 1
+#include <openssl/rand.h>
 
 #include <stdio.h>
 #include <string>

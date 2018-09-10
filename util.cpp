@@ -45,3 +45,16 @@ string strprintf(const char* format, ...)
 		delete p;
 	return str;
 }
+
+uint64 GetRand(uint64 nMax)
+{
+	if (nMax == 0)
+		return 0;
+
+	uint64 nRange = (_UI64_MAX / nMax) * nMax;
+	uint64 nRand = 0;
+	do
+		RAND_bytes((unsigned char*)&nRand, sizeof(nRand));
+	while (nRand >= nRange);
+	return (nRand % nMax);
+}

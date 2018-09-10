@@ -498,21 +498,23 @@ public:
 	{
 		EnterCriticalSection(&cs_vSend);
 		if (nPushPos != -1)
-			return;
+			AbortMessage();
 		nPushPos = vSend.size();
 		vSend << CMessageHeader(pszCommand, 0);
 		printf("sending: %-12s ", pszCommand);
 	}
-//
-//	void AbortMessage()
-//	{
-//		if (nPushPos == -1)
-//			return;
-//		vSend.resize(nPushPos);
-//		nPushPos = -1;
-//		LeaveCriticalSection(&cs_vSend);
-//		printf("(aborted)\n");
-//	}
+
+	void AbortMessage()
+	{
+		if (nPushPos == -1)
+			return;
+		vSend.resize(nPushPos);
+		nPushPos = -1;
+		LeaveCriticalSection(&cs_vSend);
+		printf("(aborted)\n");
+	}
+
+
 //
 //	void EndMessage()
 //	{
