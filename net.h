@@ -313,7 +313,7 @@ public:
 
 	bool IsKnownType() const
 	{
-		return (type >= 1 && type < ARRAYLEN(ppszTypeName));
+		return (type >= 0 && type < ARRAYLEN(ppszTypeName));
 	}
 
 	const char* GetCommand() const
@@ -514,132 +514,257 @@ public:
 		printf("(aborted)\n");
 	}
 
+	void EndMessage()
+	{
+		extern int nDropMessagesTest;
+		if (nDropMessagesTest > 0 && GetRand(nDropMessagesTest) == 0)
+		{
+			printf("dropmessages DROPPING SEND MESSAGE\n");
+			AbortMessage();
+			return;
+		}
 
-//
-//	void EndMessage()
-//	{
-//		extern int nDropMessagesTest;
-//		if (nDropMessagesTest > 0 && GetRand(nDropMessagesTest) == 0)
-//		{
-//			printf("dropmessages DROPPING SEND MESSAGE\n");
-//			AbortMessage();
-//			return;
-//		}
-//
-//		if (nPushPos == -1)
-//			return;
-//
-//		// Patch in the size
-//		unsigned int nSize = vSend.size() - nPushPos - sizeof(CMessageHeader);
-//		memcpy((char*)&vSend[nPushPos] + offsetof(CMessageHeader, nMessageSize), &nSize, sizeof(nSize));
-//
-//		printf("(%d bytes)  ", nSize);
-//		//for (int i = nPushPos+sizeof(CMessageHeader); i < min(vSend.size(), nPushPos+sizeof(CMessageHeader)+20U); i++)
-//		//    printf("%02x ", vSend[i] & 0xff);
-//		printf("\n");
-//
-//		nPushPos = -1;
-//		LeaveCriticalSection(&cs_vSend);
-//	}
-//
-//	void EndMessageAbortIfEmpty()
-//	{
-//		if (nPushPos == -1)
-//			return;
-//		int nSize = vSend.size() - nPushPos - sizeof(CMessageHeader);
-//		if (nSize > 0)
-//			EndMessage();
-//		else
-//			AbortMessage();
-//	}
-//
-//	const char* GetMessageCommand() const
-//	{
-//		if (nPushPos == -1)
-//			return "";
-//		return &vSend[nPushPos] + offsetof(CMessageHeader, pchCommand);
-//	}
-//
-//
-//
-//
-//	void PushMessage(const char* pszCommand)
-//	{
-//		try
-//		{
-//			BeginMessage(pszCommand);
-//			EndMessage();
-//		}
-//		catch (...)
-//		{
-//			AbortMessage();
-//			throw;
-//		}
-//	}
-//
-//	template<typename T1>
-//	void PushMessage(const char* pszCommand, const T1& a1)
-//	{
-//		try
-//		{
-//			BeginMessage(pszCommand);
-//			vSend << a1;
-//			EndMessage();
-//		}
-//		catch (...)
-//		{
-//			AbortMessage();
-//			throw;
-//		}
-//	}
-//
-//	template<typename T1, typename T2>
-//	void PushMessage(const char* pszCommand, const T1& a1, const T2& a2)
-//	{
-//		try
-//		{
-//			BeginMessage(pszCommand);
-//			vSend << a1 << a2;
-//			EndMessage();
-//		}
-//		catch (...)
-//		{
-//			AbortMessage();
-//			throw;
-//		}
-//	}
-//
-//	template<typename T1, typename T2, typename T3>
-//	void PushMessage(const char* pszCommand, const T1& a1, const T2& a2, const T3& a3)
-//	{
-//		try
-//		{
-//			BeginMessage(pszCommand);
-//			vSend << a1 << a2 << a3;
-//			EndMessage();
-//		}
-//		catch (...)
-//		{
-//			AbortMessage();
-//			throw;
-//		}
-//	}
-//
-//	template<typename T1, typename T2, typename T3, typename T4>
-//	void PushMessage(const char* pszCommand, const T1& a1, const T2& a2, const T3& a3, const T4& a4)
-//	{
-//		try
-//		{
-//			BeginMessage(pszCommand);
-//			vSend << a1 << a2 << a3 << a4;
-//			EndMessage();
-//		}
-//		catch (...)
-//		{
-//			AbortMessage();
-//			throw;
-//		}
-//	}
+		if (nPushPos == -1)
+			return;
+
+		// Patch in the size
+		unsigned int nSize = vSend.size() - nPushPos - sizeof(CMessageHeader);
+ 		memcpy((char*)&vSend[nPushPos] + offsetof(CMessageHeader, nMessageSize), &nSize, sizeof(nSize));
+
+		printf("(%d bytes)    ", nSize);
+		// for (int i = nPushPos + sizeof(CMessageHeader); i < min(vSend.size(), nPushPos + sizeof(CMessageHeader)+20U); i++)
+		// printf("%0x ", vSend[i] & 0xff);
+		printf("\n");
+		
+		nPushPos = -1;
+		LeaveCriticalSection(&cs_vSend);
+	}
+
+	void EndMessageAbortIfEmpty()
+	{
+		if (nPushPos == -1)
+			return;
+		int nSize = vSend.size() - nPushPos - sizeof(CMessageHeader);
+		if (nSize > 0)
+			EndMessage();
+		else
+			AbortMessage();
+	}
+
+	const char* GetMessageCommand() const
+	{
+		if (nPushPos == -1)
+			return "";
+		return &vSend[nPushPos] + offsetof(CMessageHeader, pchCommand);
+	}
+
+	void PushMessage(const char* pszCommand)
+	{
+		try
+		{
+			BeginMessage(pszCommand);
+			EndMessage();
+		}
+		catch (...)
+		{
+			AbortMessage();
+			throw;
+		}
+	}
+
+	template<typename T1>
+	void PushMessage(const char* pszCommand, const T1& a1)
+	{
+		try
+		{
+			BeginMessage(pszCommand);
+			vSend << a1;
+			EndMessage();
+		}
+		catch (...)
+		{
+			AbortMessage();
+			throw;
+		}
+	}
+
+	template<typename T1, typename T2>
+	void PushMessage(const char* pszCommand, const T1& a1, const T2& a2)
+	{
+		try
+		{
+			BeginMessage(pszCommand);
+			vSend << a1 << a2;
+			EndMessage();
+		}
+		catch (...)
+		{
+			AbortMessage();
+			throw;
+		}
+	}
+
+	template<typename T1, typename T2, typename T3>
+	void PushMessage(const char* pszCommand, const T1& a1, const T2& a2, const T3& a3)
+	{
+		try
+		{
+			BeginMessage(pszCommand);
+			vSend << a1 << a2 << a3;
+			EndMessage();
+		}
+		catch (...)
+		{
+			AbortMessage();
+			throw;
+		}
+	}
+
+	template<typename T1, typename T2, typename T3, typename T4>
+	void PushMessage(const char* pszCommand, const T1& a1, const T2& a2, const T3& a3, const T4& a4)
+	{
+		try
+		{
+			BeginMessage(pszCommand);
+			vSend << a1 << a2 << a3 << a4;
+			EndMessage();
+		}
+		catch (...)
+		{
+			AbortMessage();
+			trhow;
+		}
+	}
+
+	// TODO: need to test in the future
+	void PushRequest(const char* pszCommand,
+		void(*fn)(void *, CDataStream&), void * param1)
+	{
+		uint256 hashReply;
+		RAND_bytes((unsigned char*)&hashReply, sizeof(hashReply));
+
+		CRITICAL_BLOCK(cs_mapRequests)
+			mapRequests[hashReply] = CRequestTracker(fn, param1);
+
+		PushMessage(pszCommand, hashReply);
+	}
 
 
+	template<typename T1>
+	void PushRequest(const char* pszCommand, const T1& a1,
+		void(*fn)(void*, CDataStream&), void* param1)
+	{
+		uint256 hashReply;
+		RAND_bytes((unsigned char*)&hashReply, sizeof(hashReply));
+
+		CRITICAL_BLOCK(cs_mapRequests)
+			mapRequests[hashReply] = CRequestTracker(fn, param1);
+
+		PushMessage(pszCommand, hashReply, a1);
+	}
+
+	template<typename T1, typename T2>
+	void PushRequest(const char* pszCommand, const T1& a1, const T2& a2,
+		void(*fn)(void*, CDataStream&), void* param1)
+	{
+		uint256 hashReply;
+		RAND_bytes((unsigned char*)&hashReply, sizeof(hashReply));
+
+		CRITICAL_BLOCK(cs_mapRequests)
+			mapRequests[hashReply] = CRequestTracker(fn, param1);
+
+		PushMessage(pszCommand, hashReply, a1, a2);
+	}
+
+	bool IsSubscribed(unsigned int nChannel);
+	void Subscribe(unsigned int nChaneel, unsigned int nHops = 0);
+	void CancelSubscribe(unsigned int nChannel);
+	void Disconnect();
 };
+
+// TODO: analysis and test
+inline void RelayInventory(const CInv& inv)
+{
+	CRITICAL_BLOCK(cs_vNodes)
+		foreach(CNode* pnode, vNodes)
+			pnode->PushInventory(inv);
+}
+
+// TODO: analysis and test, especially the recursion
+template<typename T>
+void RelayMessage(const CInv& inv, const T& a)
+{
+	CDataStream ss(SER_NETWORK);
+	ss.reserve(10000);
+	ss << a;
+	RelayMessage(inv, ss);
+}
+
+// TODO: analysis and test
+template<>
+inline void RelayMessage<>(const CInv& inv, const CDataStream& ss)
+{
+	CRITICAL_BLOCK(cs_mapRelay)
+	{
+		while (!vRelayExpiration.empty() && vRelayExpiration.front().first < GetTime())
+		{
+			mapRelay.erase(vRelayExpiration.front().second);
+			vRelayExpiration.pop_front();
+		}
+
+		mapRelay[inv] = ss;
+		vRelayExpiration.push_back(make_pair(GetTime() + 15 * 60, inv));
+	}
+
+	RelayInventory(inv);
+}
+
+
+// TODO: analysis and test
+// 
+// Templates for the publish and subscription system.
+// The object being published as T& obj needs to have:
+//   a set<unsigned int> setSources member
+//   specializations of AdvertInsert and AdvertErase
+// Currently implemented for CTable and CProduct.
+//
+
+template<typename T>
+void AdvertStartPublish(CNode* pfrom, unsigned int nChannel, unsigned int nHops, T& obj)
+{
+	// Add to sources
+	obj.setSources.insert(pfrom->addr.ip);
+
+	if (!AdvertInsert(obj))
+		return;
+
+	// Relay
+	CRITICAL_BLOCK(cs_vNodes)
+		foreach(CNode* pnode, vNodes)
+		if (pnode != pfrom && (nHops < PUBLISH_HOPS || pnode->IsSubscribed(nChannel)))
+			pnode->PushMessage("publish", nChannel, nHops, obj);
+}
+
+template<typename T>
+void AdvertStopPublish(CNode* pfrom, unsigned int nChannel, unsigned int nHops, T& obj)
+{
+	uint256 hash = obj.GetHash();
+
+	CRITICAL_BLOCK(cs_vNodes)
+		foreach(CNode* pnode, vNodes)
+		if (pnode != pfrom && (nHops < PUBLISH_HOPS || pnode->IsSubscribed(nChannel)))
+			pnode->PushMessage("pub-cancel", nChannel, nHops, hash);
+
+	AdvertErase(obj);
+}
+
+template<typename T>
+void AdvertRemoveSource(CNode* pfrom, unsigned int nChannel, unsigned int nHops, T& obj)
+{
+	// Remove a source
+	obj.setSources.erase(pfrom->addr.ip);
+
+	// If no longer supported by any sources, cancel it
+	if (obj.setSources.empty())
+		AdvertStopPublish(pfrom, nChannel, nHops, obj);
+}

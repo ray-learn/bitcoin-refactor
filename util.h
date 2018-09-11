@@ -6,6 +6,7 @@ typedef long long  int64;
 typedef unsigned long long  uint64;
 #endif
 
+#define foreach BOOST_FOREACH
 #define loop for (;;)
 #define ARRAYLEN(array) (sizeof(array)/sizeof((array)[0]))
 

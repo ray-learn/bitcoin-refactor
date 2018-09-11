@@ -7,6 +7,7 @@ bool fClient = false;
 uint64 nLocalServices = (fClient ? 0 : NODE_NETWORK);
 CAddress addrLocalHost(0, DEFAULT_PORT, nLocalServices);
 map<CInv, int64> mapAlreadyAskedFor;
+vector<CNode*> vNodes;
 
 void main(int argc, char * argv)
 {
@@ -39,6 +40,10 @@ void main(int argc, char * argv)
 
 	cn.BeginMessage("abc");
 	cn.AbortMessage();
+	cn.EndMessage();
+	cn.EndMessageAbortIfEmpty();
+	cn.GetMessageCommand();
+	cn.PushMessage("abcd");
 
-	cout << "\n GetRand " << GetRand(0);
+	cout << "\n GetRand " << GetRand(3);
 }

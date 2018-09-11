@@ -13,7 +13,11 @@
 #include <winsock2.h>
 #include <deque>
 #include <map>
+
+#include <boost/foreach.hpp>
+
 using namespace std;
+using namespace boost;
 
 #include "serialize.h"
 #include "uint256.h"
