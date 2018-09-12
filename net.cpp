@@ -2,12 +2,16 @@
 
 #include "headers.h"
 
+void ThreadMessageHandler2(void* parg);
 
+bool fShutdown = false;
+array<bool, 10> vfThreadRunning;
 bool fClient = false;
 uint64 nLocalServices = (fClient ? 0 : NODE_NETWORK);
 CAddress addrLocalHost(0, DEFAULT_PORT, nLocalServices);
 map<CInv, int64> mapAlreadyAskedFor;
 vector<CNode*> vNodes;
+CCriticalSection cs_vNodes;
 
 void main(int argc, char * argv)
 {
@@ -46,4 +50,43 @@ void main(int argc, char * argv)
 	cn.PushMessage("abcd");
 
 	cout << "\n GetRand " << GetRand(3);
+
+	ThreadMessageHandler2("gogo");
+}
+
+void ThreadMessageHandler2(void* parg)
+{
+	extern bool ProcessMessages(CNode* pnode);
+	printf("ThreadMessageHandler started\n");
+	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL);
+	/*loop
+	{*/
+		// Poll the connected nodes for messages
+		vector<CNode*> vNodesCopy;
+		CRITICAL_BLOCK(cs_vNodes)
+			vNodesCopy = vNodes;
+
+		// TODO analysis the foreach procedure
+		foreach(CNode* pnode, vNodesCopy)
+		{
+			pnode->AddRef();
+
+			TRY_CRITICAL_BLOCK(pnode->cs_vRecv)
+				ProcessMessages(pnode);
+
+			//TRY_CRITICAL_BLOCK(pnode->cs_vSend)
+			//	SendMessages(pnode);
+		}
+	/*	break;
+	}*/
+}
+
+void CheckForShutdown(int n)
+{
+	if (fShutdown)
+	{
+		if (n != -1)
+			vfThreadRunning[n] = false;
+		_endthread();
+	}
 }

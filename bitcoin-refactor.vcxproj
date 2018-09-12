@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClInclude Include="bignum.h" />
     <ClInclude Include="headers.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="net.h" />
     <ClInclude Include="serialize.h" />
     <ClInclude Include="uibase.h" />

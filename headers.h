@@ -13,6 +13,9 @@
 #include <winsock2.h>
 #include <deque>
 #include <map>
+#include <algorithm>
+#include <array>
+#include <process.h>
 
 #include <boost/foreach.hpp>
 
@@ -23,4 +26,5 @@ using namespace boost;
 #include "uint256.h"
 #include "util.h"
 #include "net.h"
+#include "main.h"
 

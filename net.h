@@ -15,6 +15,8 @@ enum
 	NODE_NETWORK = (1 << 0),
 };
 
+void CheckForShutdown(int n);
+
 /** 
  * Message header: (4) message start, (12) command, (4) size
  * The message start string is designed to be unlikely to occur in normal data.

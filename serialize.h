@@ -347,7 +347,7 @@ inline void Serialize(Stream& os, const T& a, long nType, int nVersion = VERSION
 }
 
 template<typename Stream, typename T>
-inline void Unserialize(Stream & is, T& a, long nTypen, int nVersion = VERSION)
+inline void Unserialize(Stream & is, T& a, long nType, int nVersion = VERSION)
 {
 	a.Unserialize(is, (int)nType, nVersion);
 }
