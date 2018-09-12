@@ -5,6 +5,7 @@
 
 int nDropMessagesTest = 0;
 CCriticalSection cs_main;
+map<uint256, CBlockIndex*> mapBlockIndex;
 
 bool ProcessMessages(CNode* pfrom)
 {

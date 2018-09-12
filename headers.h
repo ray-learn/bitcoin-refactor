@@ -4,6 +4,7 @@
 
 #define WIN32_LEAN_AND_MEAN 1
 #include <openssl/rand.h>
+#include <openssl/sha.h>
 
 #include <stdio.h>
 #include <string>

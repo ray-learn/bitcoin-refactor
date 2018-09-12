@@ -52,6 +52,8 @@ void main(int argc, char * argv)
 	cout << "\n GetRand " << GetRand(3);
 
 	ThreadMessageHandler2("gogo");
+	const string sha_str{ "hello" };
+	Hash(sha_str.cbegin(), sha_str.cend());
 }
 
 void ThreadMessageHandler2(void* parg)
